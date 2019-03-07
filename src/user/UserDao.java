@@ -51,5 +51,60 @@ public class UserDao {
       } catch (IOException e) { 
          e.printStackTrace(); 
       } 
-   }    
+   }  
+   
+   
+   public User getUser(int id) {
+	   List<User> users = getAllUsers();
+	   for(User user:users) {
+		   if(user.getId() == id) {
+			   return user;
+		   }
+	   }
+	   return null;
+   }
+   
+   
+   public int addUser(User pUser) {
+	   List<User> userList = getAllUsers();
+	   boolean userExist = false;
+	   for(User user: userList) {
+		   if(user.getId() ==pUser.getId()) {
+			   userExist = true;
+			   break;
+		   }
+	   }
+	   if(!userExist) {
+		   userList.add(pUser);
+		   saveUserList(userList);
+		   return 1;
+	   }
+	   return 0;
+   }
+   
+   public int updateUser(User pUser) {
+	  List<User> userList = getAllUsers();
+	  for(User user: userList) {
+		  if(user.getId() == pUser.getId()) {
+			  int index = userList.indexOf(user);
+			  userList.set(index, pUser);
+			  return 1;
+		  }
+	  }
+	  return 0;
+   }
+   
+   public int deleteUser(int id){
+	      List<User> userList = getAllUsers();
+	      for(User user: userList){
+	         if(user.getId() == id){
+	            int index = userList.indexOf(user);			
+	            userList.remove(index);
+	            saveUserList(userList);
+	            return 1;   
+	         }
+	      }		
+	      return 0;
+	   }
+      
 }
